@@ -2,6 +2,7 @@ import numpy as np
 from sympy import *
 import math
 
+# Test variables for testing the program without much user input.
 test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
             "test2":{"elements" : ["H", "Cl", "C"], "formula": "CH4 + Cl2 -> CCl4 + HCl"},
             "test3":{"elements" : ["C","H","O"], "formula": "CO2 + H2O -> C6H12O6 + O2"},
@@ -11,22 +12,34 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
             "test7":{"elements" : ["H", "S", "I", "O"], "formula": "H2SO4 + HI -> H2S + I2 + H2O"},
             "blank":{"elements" : [], "formula": ""},}
 
+# Controls the flow of the program.
 def main():
-    matrix, elements, formula, ident = user_input()
+
+    elements, formula, ident = user_input()
+
+    mold = create_mold(formula, ident)
+
+    matrix = create_matrix(mold, elements, formula, ident)
+
     reduced_matrix = row_reduce(matrix)
-    print("Reduced Matrix", reduced_matrix)
+
+    #print("Reduced Matrix", reduced_matrix)
+
     co_efficents = find_coeff(reduced_matrix)
-    print("Coefficients", co_efficents)
+
+    #print("Coefficients", co_efficents)
+
     final_coeff = calc_final_coeff(co_efficents)
+
     display_results(final_coeff, elements, formula, ident)
 
 
     
-
+# Gets the user input for elements and the formula.
+# Returns a list of elements, the formula, and a list of identifiers.
 def user_input():
     elements = []
     formula = ""
-    temp_list = []
     ident = ["+", "->", "=", ">"]
     while True:
         print("Enter each element in one by one until all elements have been inputted. (Be specific with capitalization Co -> Cobalt, C -> Carbon O -> Oxygen)")
@@ -44,7 +57,11 @@ def user_input():
         else:
             elements.append(element)
             formula = input("Please enter full chemical equation (use either = or -> to separate inputs and outputs)")
+    return elements, formula, ident
 
+# Creates a mold for the matrix and augmments it with 0
+# Returns a list of 0's with the length of the number of elements in the formula.
+def create_mold(formula, ident):
     mold = [0]
     count = 1
     for i in formula:
@@ -52,10 +69,13 @@ def user_input():
             count += 1
     mold = mold * count
     mold.append(0)
+    return mold
     #print(mold)
 
-    
-
+# Creates a matrix based on the elements and the formula.
+# Returns a matrix, the elements, the formula, and the identifiers.
+def create_matrix(mold, elements, formula, ident):
+    temp_list = []
     for ele in elements:
         spot_in_mold = 0
         count_ele = mold.copy()
@@ -168,14 +188,18 @@ def user_input():
     M = Matrix(temp_list)
     print(M)
 
-    return M, elements, formula, ident
+    return M
 
-
+# Uses RREF to row reduce the matrix.
+# Returns the row reduced matrix.
 def row_reduce(M):
     RREF = M.rref(M)
     RREF = RREF[0].tolist()
     return RREF
 
+# Finds the coefficients of the elements in the row reduced matrix. 
+# Also appends a 1 to the end of the list of coefficients to account for the free variable in the system of equations.
+# Returns a list of coefficients.
 def find_coeff(RREF):
     coeff = []
 
@@ -189,13 +213,16 @@ def find_coeff(RREF):
 
     return(coeff)
 
-        
+# Calculates the final coefficients by finding the least common denominator and multiplying each coefficient by it.
+# Returns a list of final coefficients.       
 def calc_final_coeff(coeff):
     mult = LCD(coeff)
     for i in range(len(coeff)):
         coeff[i] = abs(coeff[i]) * mult
     return coeff
 
+# Finds the least common denominator of a list of numbers.
+# Returns the least common denominator.
 def LCD(nums):
     denom = [num.denominator for num in nums]
     lowest_com_den = denom[0]
@@ -205,6 +232,8 @@ def LCD(nums):
         lowest_com_den = lcm(lowest_com_den, d) 
     return lowest_com_den
 
+# Displays the final results in a balanced equation format.
+# Returns nothing.
 def display_results(coeff, elements, formula, ident):
     count = 1
     new_formula = str(coeff[0]) + formula
@@ -219,6 +248,7 @@ def display_results(coeff, elements, formula, ident):
     print("-------------------")
     print(new_formula)
 
-
-main()
+# Starts the program by calling the main function.
+if __name__ == "__main__":
+    main()
 
