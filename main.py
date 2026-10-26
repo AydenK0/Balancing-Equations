@@ -8,6 +8,7 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
             "test4":{"elements" : ["Si","Cl","H","O"], "formula": "SiCl4 + H2O -> H4SiO4 + HCl"},
             "test5":{"elements" : ["Fe","S","O","K","H"], "formula": " Fe2(SO4)3 + KOH -> K2SO4 + Fe(OH)3"},
             "test6":{"elements" : ["Ca","P","O","Si"], "formula": "Ca3(PO4)2 + SiO2 -> P4O10 + CaSiO3"},
+            "test7":{"elements" : ["H", "S", "I", "O"], "formula": "H2SO4 + HI -> H2S + I2 + H2O"},
             "blank":{"elements" : [], "formula": ""},}
 
 def main():
@@ -15,6 +16,7 @@ def main():
     reduced_matrix = row_reduce(matrix)
     print("Reduced Matrix", reduced_matrix)
     co_efficents = find_coeff(reduced_matrix)
+    print("Coefficients", co_efficents)
     final_coeff = calc_final_coeff(co_efficents)
     display_results(final_coeff, elements, formula, ident)
 
@@ -49,7 +51,7 @@ def user_input():
         if i in ident:
             count += 1
     mold = mold * count
-    mold.append(1)
+    mold.append(0)
     #print(mold)
 
     
