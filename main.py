@@ -15,19 +15,21 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
 # Controls the flow of the program.
 def main():
 
-    elements, formula, ident = user_input()
+    formula, ident = user_input()
 
+    elements = find_elements(formula)
+    print("Elements", elements)
     mold = create_mold(formula, ident)
 
     matrix = create_matrix(mold, elements, formula, ident)
 
     reduced_matrix = row_reduce(matrix)
 
-    #print("Reduced Matrix", reduced_matrix)
+    print("Reduced Matrix", reduced_matrix)
 
     co_efficents = find_coeff(reduced_matrix)
 
-    #print("Coefficients", co_efficents)
+    print("Coefficients", co_efficents)
 
     final_coeff = calc_final_coeff(co_efficents)
 
@@ -40,24 +42,19 @@ def main():
 def user_input():
     elements = []
     formula = ""
-    ident = ["+", "->", "=", ">"]
+    ident = ["+", "->", "=", ">", "→"]
     while True:
-        print("Enter each element in one by one until all elements have been inputted. (Be specific with capitalization Co -> Cobalt, C -> Carbon O -> Oxygen)")
-        print("Type 'quit' to move on")
+        formula = input("Please enter full chemical equation (use either = or -> to separate inputs and outputs)")
         print("")
-        element = input("Enter an element in the equation: ")
-        print("")
-        if element == "quit":
+        
+        if formula == "quit":
             break
-        elif element in test_var:
-            print(test_var[element])
-            elements = test_var[element]["elements"]
-            formula = test_var[element]["formula"]
+        if formula in test_var:
+            formula = test_var[formula]["formula"]
             break
-        else:
-            elements.append(element)
-            formula = input("Please enter full chemical equation (use either = or -> to separate inputs and outputs)")
-    return elements, formula, ident
+        break
+        
+    return formula, ident
 
 # Creates a mold for the matrix and augmments it with 0
 # Returns a list of 0's with the length of the number of elements in the formula.
@@ -71,6 +68,20 @@ def create_mold(formula, ident):
     mold.append(0)
     return mold
     #print(mold)
+
+
+def find_elements(formula):
+    elements = []
+    for i in range(len(formula)):
+        if formula[i].isupper():
+            if i+1 <= len(formula)-1 and formula[i+1].islower():
+                if (formula[i] + formula[i+1]) not in elements:
+                    elements.append(formula[i] + formula[i+1])
+            else:
+                if formula[i] not in elements:
+                    elements.append(formula[i])
+    return elements
+
 
 # Creates a matrix based on the elements and the formula.
 # Returns a matrix, the elements, the formula, and the identifiers.
@@ -181,7 +192,7 @@ def create_matrix(mold, elements, formula, ident):
                     continue
 
         temp_list.append(count_ele)
-    print(temp_list)
+    #print(temp_list)
 
     
     
@@ -251,4 +262,5 @@ def display_results(coeff, elements, formula, ident):
 # Starts the program by calling the main function.
 if __name__ == "__main__":
     main()
+
 
