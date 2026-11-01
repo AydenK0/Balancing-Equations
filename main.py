@@ -168,6 +168,12 @@ def check_four(formula):
     return True
     pass
 
+def check_five(formula):
+    for i in seperators:
+        if i in formula:
+            return True
+    print("Only one side of chemical equation exists")
+    return False
 
 # Finds the elements and saves them
 # Also checkes if the chemical equation is valid based on if elements are the same on both sides
