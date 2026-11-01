@@ -27,10 +27,16 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
 
 # Controls the flow of the program.
 def main():
+    while True:
+        formula, ident = user_input()
 
-    formula, ident = user_input()
+        elements = find_elements(formula)
+        if elements != -1:
+            break
+        else:
+            print("Not a valid chemical formula")
+            print("Please enter a valid chemical formula")
 
-    elements = find_elements(formula)
     print("Elements", elements)
     mold = create_mold(formula, ident)
 
@@ -84,16 +90,36 @@ def create_mold(formula, ident):
 
 
 def find_elements(formula):
-    elements = []
+    elements_left = []
+    middle = 0
+    elements_right = []
     for i in range(len(formula)):
         if formula[i].isupper():
             if i+1 <= len(formula)-1 and formula[i+1].islower():
-                if (formula[i] + formula[i+1]) not in elements:
-                    elements.append(formula[i] + formula[i+1])
+                if (formula[i] + formula[i+1]) not in elements_left:
+                    elements_left.append(formula[i] + formula[i+1])
             else:
-                if formula[i] not in elements:
-                    elements.append(formula[i])
-    return elements
+                if formula[i] not in elements_left:
+                    elements_left.append(formula[i])
+        if formula[i] in seperators:
+            middle = i
+            break
+    for i in range(middle, len(formula)):
+        if formula[i].isupper():
+            if i+1 <= len(formula)-1 and formula[i+1].islower():
+                if (formula[i] + formula[i+1]) not in elements_right:
+                    elements_right.append(formula[i] + formula[i+1])
+            else:
+                if formula[i] not in elements_right:
+                    elements_right.append(formula[i])
+        
+    if elements_left == elements_right:
+        print(middle)
+        print(elements_left)
+        print(elements_right)
+        return elements_right
+    else:
+        return -1
 
 
 # Creates a matrix based on the elements and the formula.
