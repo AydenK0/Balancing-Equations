@@ -95,6 +95,13 @@ def create_mold(formula, ident):
 def check_valid_eqn(formula):
     check1 = check_one(formula)
     check2 = check_two(formula)
+    check3 = check_three(formula)
+
+    checks = [check1, check2, check3]
+    if False in checks:
+        return False
+    else:
+        return True
 
 # Checks if there are the same elements on both sides
 def check_one(formula):
@@ -141,10 +148,12 @@ def check_two(formula):
 
 # Checks for non-elements in user-input
 def check_three():
+    return True
     pass
 
 # Checks for invalid/out of place numbers
 def check_four():
+    return True
     pass
 
 # Finds the elements and saves them
