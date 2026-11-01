@@ -29,9 +29,9 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
 def main():
     while True:
         formula, ident = user_input()
-        check_valid_eqn()
+        
     
-        if check_valid_eqn() == True:
+        if check_valid_eqn(formula) == True:
             break
         else:
             print("Not a valid chemical formula")
@@ -94,7 +94,7 @@ def create_mold(formula, ident):
 # Checks if the equation is a valid equation
 def check_valid_eqn(formula):
     check1 = check_one(formula)
-    check2 = False
+    check2 = check_two(formula)
 
 # Checks if there are the same elements on both sides
 def check_one(formula):
@@ -125,8 +125,28 @@ def check_one(formula):
     return False
 
 # Checks for incomplete parantheses
-def check_two():
+def check_two(formula):
+    tracker =[]
+    for char in formula:
+        if char == "(":
+            tracker.append("(")
+        if char == ")" and len(tracker) > 0:
+            tracker.pop()
+        if char == ")" and len(tracker) == 0:
+            print("Missing a parenthesis")
+    if len(tracker) != 0:
+        return True
+    return False
+    
+
+# Checks for non-elements in user-input
+def check_three():
     pass
+
+# Checks for invalid/out of place numbers
+def check_four():
+    pass
+
 # Finds the elements and saves them
 # Also checkes if the chemical equation is valid based on if elements are the same on both sides
 def find_elements(formula):
