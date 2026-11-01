@@ -97,8 +97,9 @@ def check_valid_eqn(formula):
     check2 = check_two(formula)
     check3 = check_three(formula)
     check4 = check_four(formula)
+    check5 = check_five(formula)
 
-    checks = [check1, check2, check3, check4]
+    checks = [check1, check2, check3, check4, check5]
     if False in checks:
         return False
     else:
@@ -162,6 +163,7 @@ def check_three(formula):
                     return False
                 
     return True
+    
 
 # Checks for invalid/out of place numbers
 def check_four(formula):
