@@ -154,8 +154,14 @@ def check_two(formula):
 
 # Checks for non-elements in user-input (checks for impossible elements, aka starts with lowercase or has more than 3 letters)
 def check_three(formula):
+    for i in range(len(formula)):
+        if formula[i].islower():
+            if i > 0:
+                if formula[i-1].islower():
+                    print("Double lower case element, check formula")
+                    return False
+                
     return True
-    pass
 
 # Checks for invalid/out of place numbers
 def check_four(formula):
