@@ -29,15 +29,18 @@ test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
 def main():
     while True:
         formula, ident = user_input()
-
-        elements = find_elements(formula)
-        if elements != -1:
+        check_valid_eqn()
+    
+        if check_valid_eqn() == True:
             break
         else:
             print("Not a valid chemical formula")
             print("Please enter a valid chemical formula")
 
+            
+    elements = find_elements(formula)
     print("Elements", elements)
+
     mold = create_mold(formula, ident)
 
     matrix = create_matrix(mold, elements, formula, ident)
@@ -88,8 +91,13 @@ def create_mold(formula, ident):
     return mold
     #print(mold)
 
+# Checks if the equation is a valid equation
+def check_valid_eqn(formula):
+    check1 = check_one(formula)
+    check2 = False
 
-def find_elements(formula):
+# Checks if there are the same elements on both sides
+def check_one(formula):
     elements_left = []
     middle = 0
     elements_right = []
@@ -112,14 +120,31 @@ def find_elements(formula):
             else:
                 if formula[i] not in elements_right:
                     elements_right.append(formula[i])
-        
     if elements_left == elements_right:
-        print(middle)
-        print(elements_left)
-        print(elements_right)
-        return elements_right
-    else:
-        return -1
+        return True
+    return False
+
+# Checks for incomplete parantheses
+def check_two():
+    pass
+# Finds the elements and saves them
+# Also checkes if the chemical equation is valid based on if elements are the same on both sides
+def find_elements(formula):
+    elements = []
+    
+    for i in range(len(formula)):
+        if formula[i].isupper():
+            if i+1 <= len(formula)-1 and formula[i+1].islower():
+                if (formula[i] + formula[i+1]) not in elements:
+                    elements.append(formula[i] + formula[i+1])
+            else:
+                if formula[i] not in elements:
+                    elements.append(formula[i])
+        if formula[i] in seperators:
+            break
+    
+    return elements
+
 
 
 # Creates a matrix based on the elements and the formula.
