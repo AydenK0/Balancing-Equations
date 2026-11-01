@@ -133,28 +133,30 @@ def check_one(formula):
 
 # Checks for incomplete parantheses
 def check_two(formula):
-    tracker =[]
+    tracker = []
     for char in formula:
         if char == "(":
-            tracker.append("(")
+            tracker.append(char)
         if char == ")" and len(tracker) > 0:
             tracker.pop()
-        if char == ")" and len(tracker) == 0:
+        elif char == ")" and len(tracker) == 0:
             print("Missing a parenthesis")
-    if len(tracker) != 0:
+            return False
+    if len(tracker) == 0:
         return True
     return False
     
 
 # Checks for non-elements in user-input
-def check_three():
+def check_three(formula):
     return True
     pass
 
 # Checks for invalid/out of place numbers
-def check_four():
+def check_four(formula):
     return True
     pass
+
 
 # Finds the elements and saves them
 # Also checkes if the chemical equation is valid based on if elements are the same on both sides
