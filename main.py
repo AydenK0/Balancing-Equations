@@ -152,7 +152,7 @@ def check_two(formula):
     return False
     
 
-# Checks for non-elements in user-input
+# Checks for non-elements in user-input (checks for impossible elements, aka starts with lowercase or has more than 3 letters)
 def check_three(formula):
     return True
     pass
