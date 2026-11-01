@@ -75,7 +75,7 @@ def user_input():
             formula = test_var[formula]["formula"]
             break
         break
-        
+    print(formula)
     return formula, ident
 
 # Creates a mold for the matrix and augmments it with 0
@@ -93,6 +93,7 @@ def create_mold(formula, ident):
 
 # Checks if the equation is a valid equation
 def check_valid_eqn(formula):
+    
     check1 = check_one(formula)
     check2 = check_two(formula)
     check3 = check_three(formula)
@@ -101,6 +102,7 @@ def check_valid_eqn(formula):
 
     checks = [check1, check2, check3, check4, check5]
     if False in checks:
+        print(checks)
         return False
     else:
         return True
@@ -167,6 +169,18 @@ def check_three(formula):
 
 # Checks for invalid/out of place numbers
 def check_four(formula):
+    for i in range(len(formula)):
+        if formula[i].isnumeric():
+            for j in range(i,0,-1):
+                if not (formula[j].isnumeric() or formula[j].isalpha()):
+                    print("failed")
+                    print(formula[j])
+                    return False
+                if formula[j].isnumeric():
+                    continue
+                if formula[j].isalpha():
+                    break
+            
     return True
     pass
 
