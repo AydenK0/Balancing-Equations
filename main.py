@@ -1,6 +1,19 @@
 import numpy as np
 from sympy import *
 import math
+'''
+TODO: 
+Console based program:
+Add error handling for user input
+Add a check for if the chemical equation is possible: Check if both sides have the same elements
+
+------------
+Add a GUI:
+
+Add a periodic table with buttons to select an element
+'''
+
+seperators = ["->", "=", ">", "→"]
 
 # Test variables for testing the program without much user input.
 test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
