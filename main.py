@@ -146,10 +146,10 @@ def check_two(formula):
         elif char == ")" and len(tracker) == 0:
             print("Missing a parenthesis")
             return False
-    if len(tracker) == 0:
+    if len(tracker) != 0:
         print("Missing a parenthesis")
-        return True
-    return False
+        return False
+    return True
     
 
 # Checks for non-elements in user-input (checks for impossible elements, aka starts with lowercase or has more than 3 letters)
