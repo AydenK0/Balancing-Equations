@@ -127,9 +127,12 @@ def check_one(formula):
             else:
                 if formula[i] not in elements_right:
                     elements_right.append(formula[i])
-    if elements_left == elements_right:
-        return True
-    return False
+    if elements_left != elements_right:
+        return False
+    if elements_left == []:
+        print("No elements")
+        return False
+    return True
 
 # Checks for incomplete parantheses
 def check_two(formula):
