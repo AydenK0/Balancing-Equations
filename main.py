@@ -58,6 +58,34 @@ def main():
     display_results(final_coeff, elements, formula, ident)
 
 
+def run_tests(formula, ident):
+        
+        
+    
+    if check_valid_eqn(formula) == True:
+        print(formula, "Test Completed Succesfully")
+    else:
+        print(formula, "Test Failed")
+        return
+    
+    return
+    elements = find_elements(formula)
+    
+
+    mold = create_mold(formula, ident)
+
+    matrix = create_matrix(mold, elements, formula, ident)
+
+    reduced_matrix = row_reduce(matrix)
+
+    
+
+    co_efficents = find_coeff(reduced_matrix)
+
+    
+
+    final_coeff = calc_final_coeff(co_efficents)
+
     
 # Gets the user input for elements and the formula.
 # Returns a list of elements, the formula, and a list of identifiers.
@@ -74,6 +102,11 @@ def user_input():
         if formula in test_var:
             formula = test_var[formula]["formula"]
             break
+        if formula == "test_all":
+            for formula in test_var:
+                formula = test_var[formula]["formula"]
+                run_tests(formula, ident)
+            quit()
         break
     print(formula)
     return formula, ident
@@ -172,13 +205,13 @@ def check_four(formula):
     for i in range(len(formula)):
         if formula[i].isnumeric():
             for j in range(i,0,-1):
-                if not (formula[j].isnumeric() or formula[j].isalpha()):
+                if not (formula[j].isnumeric() or formula[j].isalpha() or formula[j] == ")"):
                     print("failed")
                     print(formula[j])
                     return False
                 if formula[j].isnumeric():
                     continue
-                if formula[j].isalpha():
+                if formula[j].isalpha() or formula[j] == ")":
                     break
             
     return True
