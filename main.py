@@ -58,33 +58,17 @@ def main():
     display_results(final_coeff, elements, formula, ident)
 
 
-def run_tests(formula, ident):
+def run_tests(formula, ident, test):
         
         
     
     if check_valid_eqn(formula) == True:
-        print(formula, "Test Completed Succesfully")
+        print(test, "Test Completed Succesfully")
     else:
-        print(formula, "Test Failed")
+        print(test, "Test Failed")
         return
     
     return
-    elements = find_elements(formula)
-    
-
-    mold = create_mold(formula, ident)
-
-    matrix = create_matrix(mold, elements, formula, ident)
-
-    reduced_matrix = row_reduce(matrix)
-
-    
-
-    co_efficents = find_coeff(reduced_matrix)
-
-    
-
-    final_coeff = calc_final_coeff(co_efficents)
 
     
 # Gets the user input for elements and the formula.
@@ -103,9 +87,9 @@ def user_input():
             formula = test_var[formula]["formula"]
             break
         if formula == "test_all":
-            for formula in test_var:
-                formula = test_var[formula]["formula"]
-                run_tests(formula, ident)
+            for test in test_var:
+                formula = test_var[test]["formula"]
+                run_tests(formula, ident, test)
             quit()
         break
     print(formula)
