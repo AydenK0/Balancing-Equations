@@ -1,6 +1,9 @@
 import numpy as np
 from sympy import *
 import math
+
+# All code was made by Ayden Knowles using no AI
+# Some of the math used to solve the unbalence equations was helped by Daniel Shelton
 '''
 TODO: 
 Console based program:
