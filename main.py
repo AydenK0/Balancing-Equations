@@ -8,9 +8,9 @@ import json
 '''
 TODO: 
 Console based program:
-Add error handling for user input
+Add error handling for user input 
 Add a check for if the chemical equation is possible: Check if both sides have the same elements
-
+Shorten creation of matrix 
 ------------
 Add a GUI:
 
@@ -342,7 +342,7 @@ def create_matrix(mold, elements, formula, ident):
                         count_ele[spot_in_mold] = str(int(count_ele[spot_in_mold]) * multiple)
                     #print(formula[i+1], "not an int")
                     pass
-                
+            
             if len(ele) == 2 and formula[i] == ele[0]:
                 try:
                     if formula[i+1] == ele[1]:
