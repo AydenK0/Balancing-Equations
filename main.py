@@ -152,7 +152,7 @@ def create_mold(formula, ident):
     return mold
     #print(mold)
 
-# Checks if the equation is a valid equation
+# Checks if the equation is a valid equation using the built in checks
 def check_valid_eqn(formula):
     
     check1 = check_one(formula)
