@@ -19,15 +19,6 @@ Add a periodic table with buttons to select an element
 
 seperators = ["->", "=", ">", "→"]
 
-# Test variables for testing the program without much user input.
-test_var = {"test1":{"elements" : ["H", "O"], "formula" : "H2 + O2 -> H2O"},
-            "test2":{"elements" : ["H", "Cl", "C"], "formula": "CH4 + Cl2 -> CCl4 + HCl"},
-            "test3":{"elements" : ["C","H","O"], "formula": "CO2 + H2O -> C6H12O6 + O2"},
-            "test4":{"elements" : ["Si","Cl","H","O"], "formula": "SiCl4 + H2O -> H4SiO4 + HCl"},
-            "test5":{"elements" : ["Fe","S","O","K","H"], "formula": " Fe2(SO4)3 + KOH -> K2SO4 + Fe(OH)3"},
-            "test6":{"elements" : ["Ca","P","O","Si"], "formula": "Ca3(PO4)2 + SiO2 -> P4O10 + CaSiO3"},
-            "test7":{"elements" : ["H", "S", "I", "O"], "formula": "H2SO4 + HI -> H2S + I2 + H2O"},
-            "blank":{"elements" : [], "formula": ""},}
 
 # Controls the flow of the program.
 def main():
@@ -61,7 +52,8 @@ def main():
 
     display_results(final_coeff, elements, formula, ident, False)
 
-
+# This functions runs tests for all the tests in test.json
+# It checks that they are valid equations and checks if the answers are correct
 def run_tests(ident):
     test_results = []
     tests = load_tests()
@@ -97,6 +89,7 @@ def run_tests(ident):
     
     return
 
+# This function finds the answers using the program and returns it
 def test_answer(formula, ident):
     elements = find_elements(formula)
 
@@ -114,6 +107,7 @@ def test_answer(formula, ident):
 
     return answer
 
+# Loads the test from a JSON file
 def load_tests():
     try:
         with open("test.json") as file:
@@ -137,13 +131,9 @@ def user_input():
         
         if formula == "quit":
             break
-        if formula in test_var:
-            formula = test_var[formula]["formula"]
-            break
+
         if formula == "test_all":
-            for test in test_var:
-                formula = test_var[test]["formula"]
-                run_tests(ident)
+            run_tests(ident)
             quit()
         break
     print(formula)
@@ -255,6 +245,7 @@ def check_four(formula):
     return True
     pass
 
+# Checks for both sides of the chemical equation
 def check_five(formula):
     for i in seperators:
         print(formula)
@@ -443,8 +434,9 @@ def LCD(nums):
         lowest_com_den = lcm(lowest_com_den, d) 
     return lowest_com_den
 
-# Displays the final results in a balanced equation format.
-# Returns nothing.
+# Displays the final results in a balanced equation format if not testing.
+# Returns nothing if not testing
+# If testing it returns final results instead of printing them
 def display_results(coeff, elements, formula, ident, testing):
     count = 1
     if testing:
