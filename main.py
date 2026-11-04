@@ -11,6 +11,7 @@ Console based program:
 Add error handling for user input 
 Add a check for if the chemical equation is possible: Check if both sides have the same elements
 Shorten creation of matrix 
+Create code that does RREF without imports
 ------------
 Add a GUI:
 
