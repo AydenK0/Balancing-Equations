@@ -1,9 +1,10 @@
 import numpy as np
 from sympy import *
 import math
-
+import json
 # All code was made by Ayden Knowles using no AI
 # Some of the math used to solve the unbalence equations was helped by Daniel Shelton
+
 '''
 TODO: 
 Console based program:
@@ -58,22 +59,72 @@ def main():
 
     final_coeff = calc_final_coeff(co_efficents)
 
-    display_results(final_coeff, elements, formula, ident)
+    display_results(final_coeff, elements, formula, ident, False)
 
 
-def run_tests(formula, ident, test):
-        
-        
-    
-    if check_valid_eqn(formula) == True:
-        print(test, "Test Completed Succesfully")
-    else:
-        print(test, "Test Failed")
-        return
+def run_tests(ident):
+    test_results = []
+    tests = load_tests()
+
+    for test_xx in tests["tests"]:
+        #print(tests["tests"][test_xx])
+        test_num = tests["tests"][test_xx]["test_num"]
+        unbalenced_equation = tests["tests"][test_xx]["unbalenced"]
+        balanced_equation = tests["tests"][test_xx]["balenced"]
+
+        if test_num == "test_XX":
+            continue
+
+        if check_valid_eqn(unbalenced_equation) == True:
+
+            #print(test_num, "Test Completed Succesfully")
+            test_results.append(f"{test_num}, Completed Succesfully")
+        else:
+            #print(test_num, "Test Failed")
+            test_results.append(f"{test_num}, Failed")
+            
+        answer = test_answer(unbalenced_equation, ident)
+
+        if answer == balanced_equation:
+            test_results.append(f"{test_num}, Matches")
+        else:
+            test_results.append(f"{test_num}, Does Not Match")
+            print(f"Answer: {answer}, Documented Answer: {balanced_equation}")
+            
+
+    for i in test_results:
+        print(i)
     
     return
 
-    
+def test_answer(formula, ident):
+    elements = find_elements(formula)
+
+    mold = create_mold(formula, ident)
+
+    matrix = create_matrix(mold, elements, formula, ident)
+
+    reduced_matrix = row_reduce(matrix)
+
+    co_efficents = find_coeff(reduced_matrix)
+
+    final_coeff = calc_final_coeff(co_efficents)
+
+    answer = display_results(final_coeff, elements, formula, ident, True)
+
+    return answer
+
+def load_tests():
+    try:
+        with open("test.json") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+    except Exception as e:
+        print(f"Error Loading data; {e}")
+        return {}
+
+
 # Gets the user input for elements and the formula.
 # Returns a list of elements, the formula, and a list of identifiers.
 def user_input():
@@ -92,7 +143,7 @@ def user_input():
         if formula == "test_all":
             for test in test_var:
                 formula = test_var[test]["formula"]
-                run_tests(formula, ident, test)
+                run_tests(ident)
             quit()
         break
     print(formula)
@@ -206,6 +257,7 @@ def check_four(formula):
 
 def check_five(formula):
     for i in seperators:
+        print(formula)
         if i in formula:
             return True
     print("Only one side of chemical equation exists")
@@ -393,8 +445,13 @@ def LCD(nums):
 
 # Displays the final results in a balanced equation format.
 # Returns nothing.
-def display_results(coeff, elements, formula, ident):
+def display_results(coeff, elements, formula, ident, testing):
     count = 1
+    if testing:
+        for i in range(len(coeff)):
+            if coeff[i] == 1:
+                coeff[i] = ""
+
     new_formula = str(coeff[0]) + formula
     for i in range(len(new_formula)):
         if new_formula[i] in ident:
@@ -403,9 +460,13 @@ def display_results(coeff, elements, formula, ident):
             else:
                 new_formula = new_formula[:i+1] + " " + str(coeff[count]) + new_formula[i+1:]
             count += 1
-    print("Balanced Equations")
-    print("-------------------")
-    print(new_formula)
+
+    if not testing:
+        print("Balanced Equations")
+        print("-------------------")
+        print(new_formula)
+        return
+    return new_formula
 
 # Starts the program by calling the main function.
 if __name__ == "__main__":
