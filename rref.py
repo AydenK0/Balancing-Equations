@@ -5,8 +5,9 @@ def RREF(matrix):
 
     reduced_matrix = ref(matrix)
     row_reduced_matrix = top_zeros(reduced_matrix)
-    final_matrix = row_op_three(row_reduced_matrix)
-    return final_matrix
+    sorted_matrix = row_op_three(row_reduced_matrix)
+    final_matrix = diag_matrix(sorted_matrix)
+    return row_reduced_matrix
             
 # Gets a diagonal of 1's and has all values under leading 1's equaling 0
 def ref(matrix):
@@ -80,3 +81,30 @@ def row_op_three(matrix):
         
     return matrix
 
+def diag_matrix(matrix):
+    location = []
+    for i in range(len(matrix)):
+        index = find_leading_ones(matrix[i])
+        if index != -1:
+            location.append(index)
+    count = 0
+    for i in range(len(location)):
+        if location[i] == count:
+            count += 1
+            continue
+        
+        for j in range(i,len(location)):
+            if location[j] == count:
+                
+                temp_num = 0
+                temp_matrix = []
+
+                temp_num = location[i]
+                location[i] = location[j]
+                location[j] = temp_num
+
+                temp_matrix = matrix[i]
+                matrix[i] = matrix[j]
+                matrix[j] = temp_matrix
+                count += 1
+    return matrix
