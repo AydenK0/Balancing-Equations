@@ -391,7 +391,7 @@ def create_matrix(mold, elements, formula, ident):
 
     
     
-    #M = Matrix(temp_list)
+    #M = Matrix(temp_list) -- needed for old RREF
     M = temp_list
     print(M)
 
@@ -404,12 +404,15 @@ def row_reduce(M):
     
     return reduced_matix
 
+# Old RREF just in case
 """
 def row_reduce(M):
     RREF = M.rref(M)
     RREF = RREF[0].tolist()
     return RREF
 """
+
+
 # Finds the coefficients of the elements in the row reduced matrix. 
 # Also appends a 1 to the end of the list of coefficients to account for the free variable in the system of equations.
 # Returns a list of coefficients.
