@@ -14,10 +14,10 @@ def ref(matrix):
         columns_amount = len(matrix[i])
         row_ammount = len(matrix)
         leading_num_index, leading_num = find_leading_num(matrix[i])
-        if leading_num == 1:
-            print("Figure out")
+        if leading_num_index == -1:
             continue
-        else:
+
+        if leading_num != 1:
             matrix[i] = row_op_one(leading_num, matrix[i])
         
         for j in range(i, len(matrix)):
@@ -46,6 +46,7 @@ def find_leading_num(row):
     for i in range(len(row)):
         if row[i] != 0:
             return i, row[i]
+    return -1, -1
         
 # Multiplies a row by 1/n where n is the value of the leading num
 def row_op_one(n, row_matrix):
