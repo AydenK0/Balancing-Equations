@@ -10,10 +10,11 @@ from rref import RREF
 '''
 TODO: 
 Console based program:
-Add error handling for user input 
-Add a check for if the chemical equation is possible: Check if both sides have the same elements
+X - Add error handling for user input 
+X - Add a check for if the chemical equation is possible: Check if both sides have the same elements
 Shorten creation of matrix 
-Create code that does RREF without imports
+X - Create code that does RREF without imports
+Make LCM function to replace imported lcm function 
 ------------
 Add a GUI:
 
