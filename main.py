@@ -2,6 +2,8 @@ import numpy as np
 from sympy import *
 import math
 import json
+from fractions import Fraction
+from rref import RREF
 # All code was made by Ayden Knowles using no AI
 # Some of the math used to solve the unbalence equations was helped by Daniel Shelton
 
@@ -382,13 +384,15 @@ def create_matrix(mold, elements, formula, ident):
                             pass
                 except:
                     continue
-
+        for i in range(len(count_ele)):
+            count_ele[i] = int(count_ele[i])
         temp_list.append(count_ele)
     #print(temp_list)
 
     
     
-    M = Matrix(temp_list)
+    #M = Matrix(temp_list)
+    M = temp_list
     print(M)
 
     return M
@@ -396,10 +400,16 @@ def create_matrix(mold, elements, formula, ident):
 # Uses RREF to row reduce the matrix.
 # Returns the row reduced matrix.
 def row_reduce(M):
+    reduced_matix = RREF(M)
+    
+    return reduced_matix
+
+"""
+def row_reduce(M):
     RREF = M.rref(M)
     RREF = RREF[0].tolist()
     return RREF
-
+"""
 # Finds the coefficients of the elements in the row reduced matrix. 
 # Also appends a 1 to the end of the list of coefficients to account for the free variable in the system of equations.
 # Returns a list of coefficients.
@@ -420,19 +430,23 @@ def find_coeff(RREF):
 # Returns a list of final coefficients.       
 def calc_final_coeff(coeff):
     mult = LCD(coeff)
+    print(mult)
     for i in range(len(coeff)):
-        coeff[i] = abs(coeff[i]) * mult
+        dec_coeff = (abs(coeff[i]) * mult)
+        
+        coeff[i] = int(dec_coeff + 0.5)
     return coeff
 
 # Finds the least common denominator of a list of numbers.
 # Returns the least common denominator.
 def LCD(nums):
-    denom = [num.denominator for num in nums]
+    denom = [Fraction(num).limit_denominator().denominator for num in nums]
     lowest_com_den = denom[0]
     for d in denom[1:]:
         #print(lowest_com_den)
         #print(d)
         lowest_com_den = lcm(lowest_com_den, d) 
+    
     return lowest_com_den
 
 # Displays the final results in a balanced equation format if not testing.
