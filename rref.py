@@ -81,6 +81,7 @@ def row_op_three(matrix):
         
     return matrix
 
+# Sorts matrix to have a diagonal of ones starting from top left
 def diag_matrix(matrix):
     location = []
     for i in range(len(matrix)):
