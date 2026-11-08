@@ -301,7 +301,6 @@ def create_matrix(mold, elements, formula, ident):
                 str_multiple = ""
                 location = (formula.find(")", i, len(formula)-1))
 
-                
                 while True:
                     
                     if location+k <= len(formula)-1 and (formula[location + k]).isdigit():
@@ -315,26 +314,21 @@ def create_matrix(mold, elements, formula, ident):
                 multiple = 1
 
             if formula[i] == ele:
-                try:
-                    if formula[i+1] is None:
-                        print("Nope not there")
-                except:
-                    #count_ele.append(1)
+                
+                if i+1 >= len(formula):
+                    print("Nope not there")
                     count_ele[spot_in_mold] = 1 * multiple
-                    #print("Found Void, Single: " + ele)
-                    #spot_in_mold += 1
                     continue
 
                 if formula[i+1] == " " or formula[i+1] == "+"  or formula[i+1] == "(" or formula[i+1] == ")" or formula[i+1].isupper():
-                    #count_ele.append(1)
                     count_ele[spot_in_mold] = 1 * multiple
-                    #print("Found Space/+, Single: " + ele)
-                    #spot_in_mold += 1
 
-                try:
-                    n = 1
-                    while True:
-                        int(formula[i+n])
+
+                n = 1
+                while True:
+                    if i+n >= len(formula):
+                        break
+                    if formula[i+n].isdigit():
                         was_int = True
                         #count_ele.append(formula[i+2])
                         if count_ele[spot_in_mold] == 0:
@@ -342,64 +336,50 @@ def create_matrix(mold, elements, formula, ident):
                         else:
                             count_ele[spot_in_mold] += formula[i+n]
                         n += 1
-                    #print("Found Int, Single: " + ele)
-                    #spot_in_mold += 1
-                except:
-                    if was_int == True:
-                        count_ele[spot_in_mold] = str(int(count_ele[spot_in_mold]) * multiple)
-                    #print(formula[i+1], "not an int")
-                    pass
-            
+                    else:
+                        if was_int == True:
+                            count_ele[spot_in_mold] = str(int(count_ele[spot_in_mold]) * multiple)
+                        break
+  
             if len(ele) == 2 and formula[i] == ele[0]:
-                try:
-                    if formula[i+1] == ele[1]:
-                        try:
-                            if formula[i+2] is None:
-                                print("Nope not there")
-                        except:
-                            #count_ele.append(1)
-                            count_ele[spot_in_mold] = 1 * multiple
-                            #print("Found Void, Double: " + ele)
-                            #spot_in_mold += 1
-                            continue
-        
-                        if formula[i+2] == " " or formula[i+2] == "+" or formula[i+2] == "(" or formula[i+2] == ")" or formula[i+2].isupper():
-                            #count_ele.append(1)
-                            count_ele[spot_in_mold] = 1 * multiple
-                            #print("Found Space/+, Double: " + ele)
-                            #spot_in_mold += 1
-                        try:
-                            n = 2
-                            while True:
-                                int(formula[i+n])
-                                was_int = True
-                                #count_ele.append(formula[i+2])
-                                if count_ele[spot_in_mold] == 0:
-                                    count_ele[spot_in_mold] = formula[i+n]
-                                else:
-                                    count_ele[spot_in_mold] += formula[i+n]
-                                n += 1
-                                #print("Found Int, Double: " + ele)
-                                #spot_in_mold += 1
-                        except:
+                
+                if formula[i+1] == ele[1]:
+                    if i+2 >= len(formula):
+                        print("Nope not there")
+                        count_ele[spot_in_mold] = 1 * multiple
+                        continue
+    
+                    if formula[i+2] == " " or formula[i+2] == "+" or formula[i+2] == "(" or formula[i+2] == ")" or formula[i+2].isupper():
+                        count_ele[spot_in_mold] = 1 * multiple
+
+                    n = 2
+                    while True:
+                        if i+n >= len(formula):
+                            break
+                        if formula[i+n].isdigit():
+                            was_int = True
+                            #count_ele.append(formula[i+2])
+                            if count_ele[spot_in_mold] == 0:
+                                count_ele[spot_in_mold] = formula[i+n]
+                            else:
+                                count_ele[spot_in_mold] += formula[i+n]
+                            n += 1
+                        else:
                             if was_int == True:
                                 count_ele[spot_in_mold] = str(int(count_ele[spot_in_mold]) * multiple)
-                            #print(formula[i+2], "not an int")
-                            pass
-                except:
-                    continue
+                            break
+
         for i in range(len(count_ele)):
             count_ele[i] = int(count_ele[i])
         temp_list.append(count_ele)
     #print(temp_list)
 
-    
-    
     #M = Matrix(temp_list) -- needed for old RREF
     M = temp_list
     print(M)
 
     return M
+
 
 # Uses RREF to row reduce the matrix.
 # Returns the row reduced matrix.
