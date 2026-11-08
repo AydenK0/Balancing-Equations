@@ -1,3 +1,5 @@
+# Row Reduces the matrix into Reduced Row Echelon form
+# Returns the row reduced matrix
 def RREF(matrix):
     matrix = matrix.copy()
     reduced_matrix = []
@@ -10,6 +12,7 @@ def RREF(matrix):
     return row_reduced_matrix
             
 # Gets a diagonal of 1's and has all values under leading 1's equaling 0
+# Returns reduced matrix
 def ref(matrix):
     for i in range(len(matrix)):
         columns_amount = len(matrix[i])
@@ -28,7 +31,9 @@ def ref(matrix):
             print(matrix)
     return matrix
 
+# Gets zeros above the leading ones in the matrix
 def top_zeros(matrix):
+    # Loops from the end of the matrix row to the start
     for i in range(len(matrix)-1 , -1, -1):
         leading_one_index = find_leading_ones(matrix[i])
         if leading_one_index != -1:
@@ -36,13 +41,17 @@ def top_zeros(matrix):
                 matrix[j] = row_op_two(matrix[i], matrix[j], leading_one_index)
     return matrix
 
-
+# Finds the leading ones in the matrix
+# Returns -1 if there is no leading num
 def find_leading_ones(row):
     for i in range(len(row)):
         if row[i] == 1:
             return i
     return -1
 
+# Finds the leading numbers in the matrix
+# Returns -1 if there are no leading nums
+# Returns Index of leading num and leading num
 def find_leading_num(row):
     for i in range(len(row)):
         if row[i] != 0:
@@ -50,6 +59,7 @@ def find_leading_num(row):
     return -1, -1
         
 # Multiplies a row by 1/n where n is the value of the leading num
+# Returns changed matrix
 def row_op_one(n, row_matrix):
     mult = 1/n
     temp_matrix = row_matrix.copy()
@@ -58,7 +68,8 @@ def row_op_one(n, row_matrix):
     print(temp_matrix)
     return temp_matrix
 
-# subtracts a row by num such that the num under the leading 1 is 0
+# Subtracts a row by num such that the num under the leading 1 is 0
+# Returns changed matrix
 def row_op_two(main_row, changing_row, index):
 
     num = changing_row[index]
@@ -70,6 +81,7 @@ def row_op_two(main_row, changing_row, index):
     return changing_row
 
 # Checks for a row of zeros, if there is one it moves it to the bottom of the array
+# Returns changed matrix
 def row_op_three(matrix):
     
     for i in range(len(matrix)):
@@ -82,6 +94,8 @@ def row_op_three(matrix):
     return matrix
 
 # Sorts matrix to have a diagonal of ones starting from top left
+# Basicly used selection sort 
+# Returns changed matrix
 def diag_matrix(matrix):
     location = []
     for i in range(len(matrix)):
