@@ -15,7 +15,7 @@ X - Add a check for if the chemical equation is possible: Check if both sides ha
 Shorten creation of matrix 
 X - Create code that does RREF without imports
 Make LCM function to replace imported lcm function 
-Fix paratneses before plus bug
+X - Fix paratneses before plus bug
 ------------
 Add a GUI:
 
