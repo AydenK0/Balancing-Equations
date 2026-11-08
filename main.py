@@ -59,10 +59,17 @@ def main():
 
 # This functions runs tests for all the tests in test.json
 # It checks that they are valid equations and checks if the answers are correct
+# It will only check answers if it's a valid equation
 def run_tests(ident):
     test_results = []
     tests = load_tests()
+    score_checks = 0
+    max_score_checks = 0
 
+    score_answers = 0
+    max_score_answers = 0
+
+    
     for test_xx in tests["tests"]:
         #print(tests["tests"][test_xx])
         test_num = tests["tests"][test_xx]["test_num"]
@@ -71,27 +78,35 @@ def run_tests(ident):
 
         if test_num == "test_XX":
             continue
-
+        
+        max_score_checks += 1
         if check_valid_eqn(unbalenced_equation, ident) == True:
-
+            score_checks += 1
             #print(test_num, "Test Completed Succesfully")
             test_results.append(f"{test_num}, Completed Succesfully")
+
+            answer = test_answer(unbalenced_equation, ident)
+
+            max_score_answers += 1
+            if answer == balanced_equation:
+                score_answers += 1
+                test_results.append(f"{test_num}, Matches")
+            else:
+                test_results.append(f"{test_num}, Does Not Match")
+                print(f"Answer: {answer}, Documented Answer: {balanced_equation}")
+
         else:
             #print(test_num, "Test Failed")
             test_results.append(f"{test_num}, Failed")
-            
-        answer = test_answer(unbalenced_equation, ident)
+           
+        
 
-        if answer == balanced_equation:
-            test_results.append(f"{test_num}, Matches")
-        else:
-            test_results.append(f"{test_num}, Does Not Match")
-            print(f"Answer: {answer}, Documented Answer: {balanced_equation}")
             
 
     for i in test_results:
         print(i)
-    
+    print(f"Score Checks: {score_checks}/{max_score_checks}")
+    print(f"Score Answers: {score_answers}/{max_score_answers}")
     return
 
 # This function finds the answers using the program and returns it
@@ -167,6 +182,7 @@ def check_valid_eqn(formula,ident):
     check5 = check_five(formula)
 
     checks = [check1, check2, check3, check4, check5]
+
     if False in checks:
         print(checks)
         return False
