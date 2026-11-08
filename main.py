@@ -15,6 +15,7 @@ X - Add a check for if the chemical equation is possible: Check if both sides ha
 Shorten creation of matrix 
 X - Create code that does RREF without imports
 Make LCM function to replace imported lcm function 
+Fix paratneses before plus bug
 ------------
 Add a GUI:
 
@@ -30,7 +31,7 @@ def main():
         formula, ident = user_input()
         
     
-        if check_valid_eqn(formula) == True:
+        if check_valid_eqn(formula,ident) == True:
             break
         else:
             print("Not a valid chemical formula")
@@ -71,7 +72,7 @@ def run_tests(ident):
         if test_num == "test_XX":
             continue
 
-        if check_valid_eqn(unbalenced_equation) == True:
+        if check_valid_eqn(unbalenced_equation, ident) == True:
 
             #print(test_num, "Test Completed Succesfully")
             test_results.append(f"{test_num}, Completed Succesfully")
@@ -157,10 +158,10 @@ def create_mold(formula, ident):
     #print(mold)
 
 # Checks if the equation is a valid equation using the built in checks
-def check_valid_eqn(formula):
+def check_valid_eqn(formula,ident):
     
     check1 = check_one(formula)
-    check2 = check_two(formula)
+    check2 = check_two(formula,ident)
     check3 = check_three(formula)
     check4 = check_four(formula)
     check5 = check_five(formula)
@@ -204,7 +205,7 @@ def check_one(formula):
     return True
 
 # Checks for incomplete parantheses
-def check_two(formula):
+def check_two(formula,ident):
     tracker = []
     for char in formula:
         if char == "(":
@@ -213,6 +214,8 @@ def check_two(formula):
             tracker.pop()
         elif char == ")" and len(tracker) == 0:
             print("Missing a parenthesis")
+            return False
+        if (char == "+" or char in ident) and len(tracker) != 0:
             return False
     if len(tracker) != 0:
         print("Missing a parenthesis")
