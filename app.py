@@ -15,20 +15,22 @@ class App(customtkinter.CTk):
         
 
         title.grid(row=0,column=0,padx=20,sticky="ew")
-        self.chm_frame.grid(row=1,column=0,padx=20, pady=(50,150), sticky="ew",columnspan=2)
-        btn.grid(row=2,column=0,padx=20, columnspan=2, sticky="ew")
+        self.chm_frame.grid(row=1,column=0,padx=20, pady=(100,150), sticky="ew",columnspan=2)
+        btn.grid(row=4,column=0,padx=20, columnspan=2, sticky="ew")
 
 class CHM_Frame(customtkinter.CTkFrame):
     def __init__(self,master):
         super().__init__(master)
-        
-        text_left = customtkinter.CTkEntry(master=self,height=50,width=100)
-        text_right = customtkinter.CTkEntry(master=self,height=50,width=100)
-        arrow = customtkinter.CTkLabel(master=self, height=50, width=50, text="->")
 
-        text_left.grid(row=0,column=0,padx=5)
+        eqn_font = customtkinter.CTkFont(family="Eqn_font", size=24)
+        
+        text_left = customtkinter.CTkEntry(master=self,height=50,width=340, font=eqn_font)
+        text_right = customtkinter.CTkEntry(master=self,height=50,width=340, font=eqn_font)
+        arrow = customtkinter.CTkLabel(master=self, height=50, width=50, text="->",font=eqn_font)
+
+        text_left.grid(row=0,column=0,padx=5,sticky="e")
         arrow.grid(row=0,column=1,padx=5)
-        text_right.grid(row=0,column=1,padx=5)
+        text_right.grid(row=0,column=2,padx=5,sticky="w")
 
 if __name__ == "__main__":
     app = App()
