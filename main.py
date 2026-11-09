@@ -25,8 +25,8 @@ Add a periodic table with buttons to select an element
 seperators = ["->", "=", ">", "→"]
 
 
-# Controls the flow of the program.
-def main():
+# Controls the flow of the program. Console based
+def console_main():
     while True:
         formula, ident = user_input()
         
@@ -56,6 +56,40 @@ def main():
     final_coeff = calc_final_coeff(co_efficents)
 
     display_results(final_coeff, elements, formula, ident, False)
+
+# Controls the flow of the program.
+def app_main(formula):
+    while True:
+        ident = ["+", "->", "=", ">", "→"]
+        
+    
+        if check_valid_eqn(formula,ident) == True:
+            break
+        else:
+            print("Not a valid chemical formula")
+            print("Please enter a valid chemical formula")
+            return
+
+            
+    elements = find_elements(formula)
+    print("Elements", elements)
+
+    mold = create_mold(formula, ident)
+
+    matrix = create_matrix(mold, elements, formula, ident)
+
+    reduced_matrix = row_reduce(matrix)
+
+    print("Reduced Matrix", reduced_matrix)
+
+    co_efficents = find_coeff(reduced_matrix)
+
+    print("Coefficients", co_efficents)
+
+    final_coeff = calc_final_coeff(co_efficents)
+
+    display_results(final_coeff, elements, formula, ident, False)
+
 
 # This functions runs tests for all the tests in test.json
 # It checks that they are valid equations and checks if the answers are correct

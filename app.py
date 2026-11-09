@@ -1,5 +1,5 @@
 import customtkinter
-
+from main import app_main
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -24,6 +24,8 @@ class App(customtkinter.CTk):
         text_right = self.chm_frame.get_text_right()
         full_equation = f"{text_left} -> {text_right}"
         print(full_equation)
+        app_main(full_equation)
+
 
 class CHM_Frame(customtkinter.CTkFrame):
     def __init__(self,master):
