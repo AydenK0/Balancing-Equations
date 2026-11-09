@@ -6,7 +6,7 @@ class App(customtkinter.CTk):
 
         self.geometry("800x600")
         self.grid_columnconfigure((0), weight=2)
-        self.grid_anchor("center")
+        self.grid_anchor("n")
         title_font = customtkinter.CTkFont(size=32, weight="bold")
         title = customtkinter.CTkLabel(master=self,height=50,width=50,pady=20, font=title_font, text="Chemical Balancer")
         btn = customtkinter.CTkButton(master=self,height=50,width=50,text="Balance Equation", command=self.calculate_eqn)
@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
         self.answer_frame = Answer_Frame(self)
         self.answer_frame.configure(fg_color="transparent")
 
-        title.grid(row=0,column=0,padx=20)
+        title.grid(row=0,column=0,padx=20, columnspan=50)
         self.chm_frame.grid(row=1,column=0,padx=20, pady=(100,10), sticky="ew",columnspan=2)
         self.answer_frame.grid(row=2,column=0,padx=20,pady=(10,60), sticky="ew", columnspan=2)
         btn.grid(row=4,column=0,padx=20, columnspan=2, sticky="ew")
