@@ -16,9 +16,10 @@ X - Shorten creation of matrix
 X - Create code that does RREF without imports
 Make LCM function to replace imported lcm function 
 X - Fix paratneses before plus bug
+Fix bug with F + O -> F2 + O2 : Prob has to do with 2 at the end
 ------------
 Add a GUI:
-
+Add a button to run tests
 Add a periodic table with buttons to select an element
 '''
 
@@ -88,7 +89,9 @@ def app_main(formula):
 
     final_coeff = calc_final_coeff(co_efficents)
 
-    display_results(final_coeff, elements, formula, ident, False)
+    balanced_eqn = display_results(final_coeff, elements, formula, ident, True)
+
+    return balanced_eqn
 
 
 # This functions runs tests for all the tests in test.json
@@ -489,9 +492,9 @@ def LCD(nums):
 # Displays the final results in a balanced equation format if not testing.
 # Returns nothing if not testing
 # If testing it returns final results instead of printing them
-def display_results(coeff, elements, formula, ident, testing):
+def display_results(coeff, elements, formula, ident, return_formula):
     count = 1
-    if testing:
+    if return_formula:
         for i in range(len(coeff)):
             if coeff[i] == 1:
                 coeff[i] = ""
@@ -505,7 +508,7 @@ def display_results(coeff, elements, formula, ident, testing):
                 new_formula = new_formula[:i+1] + " " + str(coeff[count]) + new_formula[i+1:]
             count += 1
 
-    if not testing:
+    if not return_formula:
         print("Balanced Equations")
         print("-------------------")
         print(new_formula)
@@ -514,6 +517,6 @@ def display_results(coeff, elements, formula, ident, testing):
 
 # Starts the program by calling the main function.
 if __name__ == "__main__":
-    main()
+    console_main()
 
 
