@@ -1,28 +1,29 @@
 import customtkinter
-from main import app_main
+from main import app_main, run_tests
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
         self.geometry("800x600")
         self.grid_columnconfigure((0), weight=2)
+        self.grid_anchor("center")
         title_font = customtkinter.CTkFont(size=32, weight="bold")
         title = customtkinter.CTkLabel(master=self,height=50,width=50,pady=20, font=title_font, text="Chemical Balancer")
-        btn = customtkinter.CTkButton(master=self,height=50,width=50,text="Balance Equation", command=self.get_text)
-        test_btn = customtkinter.CTkButton(master=self,height=50,width=50,text="Run Tests", command=self.get_text)
+        btn = customtkinter.CTkButton(master=self,height=50,width=50,text="Balance Equation", command=self.calculate_eqn)
+        test_btn = customtkinter.CTkButton(master=self,height=50,width=50,text="Run Tests", command=self.run_tests)
         self.chm_frame = CHM_Frame(self)
         self.chm_frame.configure(fg_color="transparent")
 
         self.answer_frame = Answer_Frame(self)
         self.answer_frame.configure(fg_color="transparent")
 
-        title.grid(row=0,column=0,padx=20,sticky="ew")
+        title.grid(row=0,column=0,padx=20)
         self.chm_frame.grid(row=1,column=0,padx=20, pady=(100,10), sticky="ew",columnspan=2)
-        self.answer_frame.grid(row=2,column=0,padx=20,pady=(10,100), sticky="ew", columnspan=2)
+        self.answer_frame.grid(row=2,column=0,padx=20,pady=(10,60), sticky="ew", columnspan=2)
         btn.grid(row=4,column=0,padx=20, columnspan=2, sticky="ew")
         test_btn.grid(row=6,column=1,pady=20, padx=20)
 
-    def get_text(self):
+    def calculate_eqn(self):
         text_left = self.chm_frame.get_text_left()
         text_right = self.chm_frame.get_text_right()
         full_equation = f"{text_left} -> {text_right}"
@@ -33,8 +34,15 @@ class App(customtkinter.CTk):
                 new_balanced_eqn = f"{balanced_eqn[:i]} → "
             if balanced_eqn[i] == ">":
                 balanced_eqn = f"{new_balanced_eqn}{balanced_eqn[(i+1):]}"
-
+        self.answer_frame.clear_frame()
         self.answer_frame.set_balanced_eqn(balanced_eqn)
+
+    def run_tests(self):
+        self.answer_frame.clear_frame()
+        check_results, answer_results = run_tests(True)
+        self.answer_frame.set_check_results(check_results)
+        self.answer_frame.set_answer_results(answer_results)
+
 
 
 class CHM_Frame(customtkinter.CTkFrame):
@@ -68,8 +76,25 @@ class Answer_Frame(customtkinter.CTkFrame):
         self.balanced_eqn = customtkinter.CTkLabel(master=self, height=50, text="",font=eqn_font)
         self.balanced_eqn.grid(row=2,column=1,pady=20)
 
+        self.check_results = customtkinter.CTkLabel(master=self, height=50, text="",font=eqn_font)
+        self.check_results.grid(row=2,column=1,pady=20)
+
+        self.answer_results = customtkinter.CTkLabel(master=self, height=50, text="",font=eqn_font)
+        self.answer_results.grid(row=3,column=1,pady=20)
+
     def set_balanced_eqn(self, eqn):
         self.balanced_eqn.configure(text=f"{eqn}")
+
+    def set_check_results(self, results):
+        self.check_results.configure(text=f"{results}")
+
+    def set_answer_results(self, results):
+        self.answer_results.configure(text=f"{results}")
+
+    def clear_frame(self):
+        self.balanced_eqn.configure(text=f"")
+        self.check_results.configure(text=f"")
+        self.answer_results.configure(text=f"")
 
 if __name__ == "__main__":
     app = App()

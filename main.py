@@ -24,6 +24,7 @@ Add a periodic table with buttons to select an element
 '''
 
 seperators = ["->", "=", ">", "→"]
+ident = ["+", "->", "=", ">", "→"]
 
 
 # Controls the flow of the program. Console based
@@ -97,7 +98,7 @@ def app_main(formula):
 # This functions runs tests for all the tests in test.json
 # It checks that they are valid equations and checks if the answers are correct
 # It will only check answers if it's a valid equation
-def run_tests(ident):
+def run_tests(return_results):
     test_results = []
     tests = load_tests()
     score_checks = 0
@@ -142,8 +143,10 @@ def run_tests(ident):
 
     for i in test_results:
         print(i)
-    print(f"Score Checks: {score_checks}/{max_score_checks}")
-    print(f"Score Answers: {score_answers}/{max_score_answers}")
+    check_results = (f"Check Results: {score_checks}/{max_score_checks}")
+    answer_results = (f"Answer Results: {score_answers}/{max_score_answers}")
+    if return_results:
+        return check_results,answer_results
     return
 
 # This function finds the answers using the program and returns it
@@ -190,7 +193,7 @@ def user_input():
             break
 
         if formula == "test_all":
-            run_tests(ident)
+            run_tests(False)
             quit()
         break
     print(formula)
