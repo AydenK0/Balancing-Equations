@@ -464,8 +464,11 @@ def find_coeff(RREF):
             if RREF[i][j] != 0:
                 coeff.append(RREF[i][j])
                 break
-
-    coeff.append(1)
+    while True:
+        if len(coeff) != (len(RREF[0])-1):
+            coeff.append(1)
+        else:
+            break
 
     return(coeff)
 
